@@ -1,5 +1,6 @@
 package First.Application.Services;
 
+import First.Application.CustomExceptions.UserNotFoundException;
 import First.Application.Model.User;
 import First.Application.Model.UserRegistrationObject;
 import First.Application.Repository.UserRepository;
@@ -10,8 +11,6 @@ import java.util.*;
 
 @Service
 public class UserServiceImplementation implements UserServices{
-
-    Map result = new HashMap<>();
 
     @Autowired
     UserRepository userRepository;
@@ -29,13 +28,12 @@ public class UserServiceImplementation implements UserServices{
     }
 
     @Override
-    public User updateUser(UserRegistrationObject user) {
+    public User updateUser(UserRegistrationObject user) throws UserNotFoundException {
         //Write exception to block empty id
         Optional<User> dbUser = userRepository.findById(user.getId());
 
         if(dbUser.isEmpty()) {
-            //throw a better custom exception
-            throw new IllegalCallerException("Couldn't find user");
+            throw new UserNotFoundException("Couldn't find user with id: " + user.getId());
         }
 
         User oldUser = dbUser.get();
@@ -68,12 +66,13 @@ public class UserServiceImplementation implements UserServices{
     }
 
     @Override
-    public Map deleteUser(Long id) {
+    public Map deleteUser(Long id) throws UserNotFoundException {
         boolean available = userRepository.existsById(id);
 
+        Map result = new HashMap<>();
+
         if(!available){
-            result.put(id, "User doesn't exist");
-            return result;
+            throw new UserNotFoundException("Can't delete a user which doesn't exist");
         }
 
         userRepository.deleteById(id);
@@ -82,16 +81,17 @@ public class UserServiceImplementation implements UserServices{
     }
 
     @Override
-    public User findById(Long id) {
+    public User findById(Long id) throws UserNotFoundException {
         Optional<User> user = userRepository.findById(id);
         if(user.isEmpty()){
-            throw new EmptyStackException();
+            throw new UserNotFoundException("Couldn't find user with id: " + id);
         }
         return user.get();
     }
 
 //    @Override
     public Map deleteUsers(String ids) {
+        Map result = new HashMap<>();
 
         String data = ids.replaceAll("[\\{\\}]", "");
 
@@ -116,11 +116,11 @@ public class UserServiceImplementation implements UserServices{
 //        userRepository.deleteAllById(query); //without checking for existing id
     }
 
-    public User findByFirstname(String firstname){
+    public User findByFirstname(String firstname) throws UserNotFoundException {
          Optional<User> dbUser = userRepository.findByFirstname(firstname);
 
         if(dbUser.isEmpty()){
-            throw new RuntimeException("ok");
+            throw new UserNotFoundException("User with firstname: "+firstname+" doesn't exist");
         }
 
         return dbUser.get();

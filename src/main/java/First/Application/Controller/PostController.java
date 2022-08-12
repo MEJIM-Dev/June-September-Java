@@ -19,9 +19,4 @@ public class PostController {
         return userImpl.saveUser(uro);
     }
 
-    @PostMapping("/testpath/{b}")
-    public String TestMeth(@RequestParam("a") String a, @PathVariable("b") String b, @RequestBody() UserRegistrationObject uro){
-        return "a: "+a+" b: "+b;
-    }
-
 }

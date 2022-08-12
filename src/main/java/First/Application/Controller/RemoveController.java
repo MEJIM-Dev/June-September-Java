@@ -1,5 +1,6 @@
 package First.Application.Controller;
 
+import First.Application.CustomExceptions.UserNotFoundException;
 import First.Application.Model.User;
 import First.Application.Services.UserServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class RemoveController {
     UserServiceImplementation userImpl;
 
     @DeleteMapping("/remove/user")
-    public Map RemoveUser(@RequestBody() User uro){
+    public Map RemoveUser(@RequestBody() User uro) throws UserNotFoundException {
 
        return userImpl.deleteUser(uro.getId());
 

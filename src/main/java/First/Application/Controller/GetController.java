@@ -1,5 +1,6 @@
 package First.Application.Controller;
 
+import First.Application.CustomExceptions.UserNotFoundException;
 import First.Application.Model.User;
 import First.Application.Services.UserServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,13 @@ public class GetController {
     }
 
     @GetMapping("/find/user/firstname")
-    public User FindByFirstname(@RequestParam("firstname") String firstname){
+    public User FindByFirstname(@RequestParam("firstname") String firstname) throws UserNotFoundException {
         return userImpl.findByFirstname(firstname);
     }
 
     @GetMapping("/allusers")
     public List<User> GetUser(){
+
         return userImpl.findAllUser();
     }
 
@@ -131,8 +133,8 @@ public class GetController {
     }
 
 
-    @GetMapping("/**")
-    public String ResourceNotFound(){
-        return "404, No such path has been mapped";
-    }
+//    @GetMapping("/**")
+//    public String ResourceNotFound(){
+//        return "404, No such path has been mapped";
+//    }
 }

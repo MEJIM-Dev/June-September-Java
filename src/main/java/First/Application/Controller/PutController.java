@@ -1,5 +1,6 @@
 package First.Application.Controller;
 
+import First.Application.CustomExceptions.UserNotFoundException;
 import First.Application.Model.User;
 import First.Application.Model.UserRegistrationObject;
 import First.Application.Services.UserServiceImplementation;
@@ -14,7 +15,7 @@ public class PutController {
     UserServiceImplementation userImpl;
 
     @PutMapping("/update/user")
-    public User UpdateUser( @RequestBody() UserRegistrationObject uro){
+    public User UpdateUser( @RequestBody() UserRegistrationObject uro) throws UserNotFoundException {
 
         return userImpl.updateUser(uro);
     }
