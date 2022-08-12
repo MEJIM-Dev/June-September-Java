@@ -113,14 +113,14 @@ public class UserServiceImplementation implements UserServices{
         }
 
         return result;
-//        userRepository.deleteAllById(query);
+//        userRepository.deleteAllById(query); //without checking for existing id
     }
 
     public User findByFirstname(String firstname){
          Optional<User> dbUser = userRepository.findByFirstname(firstname);
 
         if(dbUser.isEmpty()){
-            return new User();
+            throw new RuntimeException("ok");
         }
 
         return dbUser.get();
