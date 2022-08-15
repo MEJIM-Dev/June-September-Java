@@ -25,6 +25,7 @@ public class User {
     private String password;
 
     @Email(regexp = "[a-zA-Z0-9]{2,50}@[a-zA-Z]{4,12}.[a-z]{2,5}")
+//    @Column(unique = true)
     private String email;
 
     private boolean activated = false;

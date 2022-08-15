@@ -7,6 +7,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +16,6 @@ import java.util.Map;
 public class ExceptionsController {
 
     @ExceptionHandler(value = UserNotFoundException.class)
-
     public ResponseEntity<Map> UserNotFoundExceptionHandler(UserNotFoundException exception){
 
         Map map = new HashMap();
@@ -27,9 +27,10 @@ public class ExceptionsController {
     }
 
     @ExceptionHandler(value = HttpMessageNotReadableException.class)
-    public ResponseEntity<Map> BadBodyRequestExceptionHandler(HttpMessageNotReadableException exception){
+    public ResponseEntity<Map> RequestBodyExceptionHandler(HttpMessageNotReadableException exception){
 
         Map map = new HashMap();
+
         map.put("Error Message", exception.getMessage().split(":")[0]);
         map.put("Status Code", 400);
         map.put("timestamp", LocalDateTime.now());
@@ -38,7 +39,7 @@ public class ExceptionsController {
     }
 
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
-    public ResponseEntity<Map> BadRequestParamsExceptionHandler(MissingServletRequestParameterException exception){
+    public ResponseEntity<Map> RequestParamsExceptionHandler(MissingServletRequestParameterException exception){
 
         Map map = new HashMap();
         map.put("Error Message", exception.getMessage().split("'")[0].trim());
@@ -47,4 +48,19 @@ public class ExceptionsController {
 
         return new ResponseEntity<>(map,HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(value = ConstraintViolationException.class)
+    public ResponseEntity<?> ConstraintViolationExceptionHandler(ConstraintViolationException exception){
+        Map map = new HashMap();
+
+        map.put("Status Code", 400);
+        map.put("timestamp", LocalDateTime.now());
+
+        exception.getConstraintViolations().stream().forEach((error)->{
+            map.put(error.getPropertyPath(),error.getMessage());
+        });
+
+        return new ResponseEntity<>(map,HttpStatus.BAD_REQUEST);
+    }
+
 }
