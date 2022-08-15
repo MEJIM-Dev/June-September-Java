@@ -1,5 +1,6 @@
 package First.Application.Services;
 
+import First.Application.CustomExceptions.BadRequestCustomException;
 import First.Application.CustomExceptions.UserNotFoundException;
 import First.Application.Model.User;
 import First.Application.Model.UserRegistrationObject;
@@ -16,6 +17,6 @@ public interface UserServices {
     User updateUser(UserRegistrationObject user) throws UserNotFoundException;
     Map deleteUser(Long id) throws UserNotFoundException;
     User findById(Long id) throws UserNotFoundException;
-    Map deleteUsers(String ids);
+    Map deleteUsers(String ids) throws BadRequestCustomException;
 
 }

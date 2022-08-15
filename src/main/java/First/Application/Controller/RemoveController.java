@@ -1,5 +1,6 @@
 package First.Application.Controller;
 
+import First.Application.CustomExceptions.BadRequestCustomException;
 import First.Application.CustomExceptions.UserNotFoundException;
 import First.Application.Model.User;
 import First.Application.Services.UserServiceImplementation;
@@ -25,7 +26,7 @@ public class RemoveController {
     }
 
     @DeleteMapping("/remove/users")
-    public Map RemoveUsers(@RequestParam("ids") String ids){
+    public Map RemoveUsers(@RequestParam("ids") String ids) throws BadRequestCustomException {
 
         return userImpl.deleteUsers(ids);
     }

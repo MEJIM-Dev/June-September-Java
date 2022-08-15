@@ -63,4 +63,14 @@ public class ExceptionsController {
         return new ResponseEntity<>(map,HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(value = BadRequestCustomException.class)
+    public ResponseEntity<?> CustomBadRequestHandler(BadRequestCustomException exception){
+        Map map = new HashMap();
+
+        map.put("Status Code", 400);
+        map.put("timestamp", LocalDateTime.now());
+        map.put("Error Message", exception.getMessage());
+
+        return new ResponseEntity<>(map,HttpStatus.BAD_REQUEST);
+    }
 }

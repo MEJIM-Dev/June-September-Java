@@ -1,11 +1,13 @@
 package First.Application.Services;
 
+import First.Application.CustomExceptions.BadRequestCustomException;
 import First.Application.CustomExceptions.UserNotFoundException;
 import First.Application.Model.User;
 import First.Application.Model.UserRegistrationObject;
 import First.Application.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 
 import java.util.*;
 
@@ -17,7 +19,6 @@ public class UserServiceImplementation implements UserServices{
 
     @Override
     public User saveUser(UserRegistrationObject uro) {
-        System.out.println(uro.toString());
         User user  = new User(uro.getFirstName(), uro.getLastname(), uro.getAge(),uro.getPassword(),uro.getEmail(), uro.getGender());
         return userRepository.save(user);
     }
@@ -90,8 +91,30 @@ public class UserServiceImplementation implements UserServices{
     }
 
 //    @Override
-    public Map deleteUsers(String ids) {
+    public Map deleteUsers(String ids) throws BadRequestCustomException {
         Map result = new HashMap<>();
+
+        if(ids.matches("[0-9]{1,2}-[0-9]{1,3}")){
+            System.out.println(ids);
+            String start =ids.split("-")[0];
+            String end =ids.split("-")[1];
+            System.out.println(start+" "+end);
+
+            if(Integer.parseInt(end)<=Integer.parseInt(start)){
+                throw new BadRequestCustomException("Start must be smaller than end");
+            }
+
+            for (int i = Integer.parseInt(start); i <= Integer.parseInt(end); i++) {
+                if(userRepository.existsById((long) i)){
+                    userRepository.deleteById((long) i);
+                    result.put(i, "deleted successfully");
+                } else {
+                    result.put(i, "User doesn't exist");
+                }
+            }
+
+            return result;
+        }
 
         String data = ids.replaceAll("[\\{\\}]", "");
 

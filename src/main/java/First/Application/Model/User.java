@@ -6,7 +6,7 @@ import javax.validation.constraints.*;
 @Entity()
 public class User {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
@@ -15,21 +15,24 @@ public class User {
     @Size(min = 2, max=25)
     private String firstname;
 
-//    @Size(min = 2, max = 10, message = "not between the valid range")
+//    @Size(min = 2, max = 10, message = "not between the valid age range")
     @NotBlank()
     @Size(min = 2, max=25)
-    private  String lastname;
+    private String lastname;
 
     private int age;
 
+    @Column(nullable = false)
+    @Size(min=8, max=50)
     private String password;
 
     @Email(regexp = "[a-zA-Z0-9]{2,50}@[a-zA-Z]{4,12}.[a-z]{2,5}")
-//    @Column(unique = true)
+    @Column(unique = true)
     private String email;
 
     private boolean activated = false;
 
+    @NotBlank()
     private String gender;
 
     public User(){
