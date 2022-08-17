@@ -18,5 +18,6 @@ public interface UserServices {
     Map deleteUser(Long id) throws UserNotFoundException;
     User findById(Long id) throws UserNotFoundException;
     Map deleteUsers(String ids) throws BadRequestCustomException;
+    User findByEmail(String email) throws UserNotFoundException;
 
 }

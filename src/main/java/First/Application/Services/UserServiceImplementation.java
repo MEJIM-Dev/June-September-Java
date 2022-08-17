@@ -2,12 +2,15 @@ package First.Application.Services;
 
 import First.Application.CustomExceptions.BadRequestCustomException;
 import First.Application.CustomExceptions.UserNotFoundException;
+import First.Application.Model.Auth.LoginData;
+import First.Application.Model.ResponseEntity.ResponseObject;
 import First.Application.Model.User;
 import First.Application.Model.UserRegistrationObject;
 import First.Application.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 
 import java.util.*;
 
@@ -139,6 +142,15 @@ public class UserServiceImplementation implements UserServices{
 //        userRepository.deleteAllById(query); //without checking for existing id
     }
 
+    @Override
+    public User findByEmail(String email) throws UserNotFoundException {
+        Optional<User> user = userRepository.findByEmail(email);
+        if(user.isEmpty()){
+            throw new UserNotFoundException("Couldn't find user with email: " + email);
+        }
+        return user.get();
+    }
+
     public User findByFirstname(String firstname) throws UserNotFoundException {
          Optional<User> dbUser = userRepository.findByFirstname(firstname);
 
@@ -147,5 +159,21 @@ public class UserServiceImplementation implements UserServices{
         }
 
         return dbUser.get();
+    }
+
+    public ResponseEntity<Object> loginUser(LoginData credentials) throws BadRequestCustomException, UserNotFoundException {
+        if(credentials.getEmail().isEmpty() || credentials.getPassword().isEmpty()){
+            throw new BadRequestCustomException("missing some information for login");
+        }
+
+        User user  = findByEmail(credentials.getEmail());
+
+        if(!user.getPassword().equals(credentials.getPassword())){
+            throw new BadRequestCustomException("Email or password is incorrect");
+        }
+
+        ResponseObject userInfo = new ResponseObject(user);
+
+        return new ResponseEntity<>(userInfo,HttpStatus.OK);
     }
 }
