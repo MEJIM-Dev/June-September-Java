@@ -36,11 +36,6 @@ public class GetController {
         return userImpl.findAllUser();
     }
 
-    @GetMapping("/login")
-    public String Login(){
-        return "Login successfully";
-    }
-
     @GetMapping("/electronics")
     public String[] GetElectronicsCategory(){
         return electronics;

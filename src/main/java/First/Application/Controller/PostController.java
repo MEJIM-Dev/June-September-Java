@@ -18,13 +18,13 @@ public class PostController {
     @Autowired
     UserServiceImplementation userImpl;
 
-    @PostMapping(value = "/register",consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE,MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/api/register",consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE,MediaType.APPLICATION_JSON_VALUE})
     public User Register(@RequestBody UserRegistrationObject uro){
 
         return userImpl.saveUser(uro);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/api/login")
     public ResponseEntity<Object> LoginUser(@RequestBody LoginData credentials) throws BadRequestCustomException, UserNotFoundException {
 
         return userImpl.loginUser(credentials);

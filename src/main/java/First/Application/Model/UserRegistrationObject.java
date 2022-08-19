@@ -110,9 +110,12 @@ public class UserRegistrationObject {
     @Override
     public String toString() {
         return "UserRegistrationObject{" +
-                "name='" + firstname + '\'' +
+                "firstname='" + firstname + '\'' +
                 ", age=" + age +
                 ", password='" + password + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", gender=" + gender +
+                ", email='" + email + '\'' +
                 '}';
     }
 }
