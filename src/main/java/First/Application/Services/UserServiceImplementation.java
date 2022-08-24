@@ -161,7 +161,7 @@ public class UserServiceImplementation implements UserServices{
         return dbUser.get();
     }
 
-    public ResponseEntity<Object> loginUser(LoginData credentials) throws BadRequestCustomException, UserNotFoundException {
+    public ResponseObject loginUser(LoginData credentials) throws BadRequestCustomException, UserNotFoundException {
         if(credentials.getEmail().isEmpty() || credentials.getPassword().isEmpty()){
             throw new BadRequestCustomException("missing some information for login");
         }
@@ -174,6 +174,6 @@ public class UserServiceImplementation implements UserServices{
 
         ResponseObject userInfo = new ResponseObject(user);
 
-        return new ResponseEntity<>(userInfo,HttpStatus.OK);
+        return userInfo;
     }
 }

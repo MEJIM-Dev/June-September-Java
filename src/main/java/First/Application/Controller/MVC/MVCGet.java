@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.InvocationTargetException;
 
 @Controller
 public class MVCGet {
@@ -16,12 +17,13 @@ public class MVCGet {
 
     @GetMapping("/homepage")
     public String homepage(Model model) {
-        model.addAttribute("page", "page 201");
+        model.addAttribute("page", "dynamic data");
         return "homepage";
     }
 
     @GetMapping("/dashboard")
     public String dashboard(HttpServletRequest req) {
+
         return "dashboard";
     }
 

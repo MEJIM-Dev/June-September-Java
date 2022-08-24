@@ -3,6 +3,7 @@ package First.Application.Controller.REST;
 import First.Application.CustomExceptions.BadRequestCustomException;
 import First.Application.CustomExceptions.UserNotFoundException;
 import First.Application.Model.Auth.LoginData;
+import First.Application.Model.ResponseEntity.ResponseObject;
 import First.Application.Model.User;
 import First.Application.Model.UserRegistrationObject;
 import First.Application.Services.UserServiceImplementation;
@@ -20,14 +21,12 @@ public class PostController {
 
     @PostMapping(value = "/api/register",consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE,MediaType.APPLICATION_JSON_VALUE})
     public User Register(@RequestBody UserRegistrationObject uro){
-
         return userImpl.saveUser(uro);
     }
 
     @PostMapping("/api/login")
     public ResponseEntity<Object> LoginUser(@RequestBody LoginData credentials) throws BadRequestCustomException, UserNotFoundException {
-
-        return userImpl.loginUser(credentials);
+        return new ResponseEntity<>(userImpl.loginUser(credentials),HttpStatus.OK);
     }
 
 
