@@ -11,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Service
@@ -175,5 +178,25 @@ public class UserServiceImplementation implements UserServices{
         ResponseObject userInfo = new ResponseObject(user);
 
         return userInfo;
+    }
+
+    public ResponseObject reAuthenticate(String email) throws UserNotFoundException {
+        User user = findByEmail(email);
+
+        return new ResponseObject(user);
+    }
+
+    public String dashboardRerouter(HttpServletRequest req, Model model, String defaultView) throws UserNotFoundException {
+        Cookie[] cookies = req.getCookies();
+        if(cookies.length>0){
+            for (Cookie cookie: cookies) {
+                if(cookie.getName().equals("email")){
+                    ResponseObject dbUser = reAuthenticate(cookie.getValue());
+                    model.addAttribute("user",dbUser);
+                    return "dashboard";
+                }
+            }
+        }
+        return defaultView;
     }
 }
