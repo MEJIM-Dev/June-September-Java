@@ -47,5 +47,3 @@ submit.addEventListener("click",function(e){
     return alert("form not completed yet")
 
 })
-
-//window.location.href="/dashboard"

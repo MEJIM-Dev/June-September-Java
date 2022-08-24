@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.com">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1 th:text="${msg.statuscode}"></h1>
+<!--    <p>timestamp: </p>-->
+    <p th:text="${msg.timestamp}"></p>
+    <table>
+        <tr>
+            <th>
+                Timestamp
+            </th>
+            <th>
+                Error message
+            </th>
+        </tr>
+        <tr>
+            <td th:text="${msg.timestamp}">
+
+            </td>
+            <td th:text="${msg.message}">
+
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

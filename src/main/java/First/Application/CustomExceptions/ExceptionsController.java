@@ -3,9 +3,11 @@ package First.Application.CustomExceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
@@ -64,13 +66,16 @@ public class ExceptionsController {
     }
 
     @ExceptionHandler(value = BadRequestCustomException.class)
-    public ResponseEntity<?> CustomBadRequestHandler(BadRequestCustomException exception){
+    public ModelAndView CustomBadRequestHandler(BadRequestCustomException exception, Model model){
         Map map = new HashMap();
 
-        map.put("Status Code", 400);
+        map.put("statuscode", 400);
         map.put("timestamp", LocalDateTime.now());
-        map.put("Error Message", exception.getMessage());
-
-        return new ResponseEntity<>(map,HttpStatus.BAD_REQUEST);
+        map.put("message", exception.getMessage());
+        model.addAttribute("error", map);
+        ModelAndView modelAndView = new ModelAndView("/error/400.html");
+        modelAndView.addObject("msg", map);
+        return modelAndView;
+//        return new ResponseEntity<>(map,HttpStatus.BAD_REQUEST);
     }
 }

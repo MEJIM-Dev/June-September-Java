@@ -1,4 +1,4 @@
-package First.Application.Controller;
+package First.Application.Controller.REST;
 
 import First.Application.CustomExceptions.BadRequestCustomException;
 import First.Application.CustomExceptions.UserNotFoundException;

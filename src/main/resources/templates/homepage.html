@@ -4,12 +4,40 @@
     <meta charset="UTF-8">
     <title>Love center</title>
     <link href="./style.css" rel="stylesheet">
+    <link href="./styles/bootstrap.css" rel="stylesheet">
 </head>
 <body>
-<h1>Welcome to LoveCenter</h1>
-<p> where you get to meet wonderful people with various interests and hobby. You can make new friends and find partners</p>
-<a href="/login">Login and Continue making friends</a>
-<a href="/register">Click here, if you don't have an account</a>
-<h1 th:text="${ok}" />
+<!--    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">-->
+<!--        <div class="container-fluid">-->
+<!--            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--                <span class="navbar-toggler-icon"></span>-->
+<!--            </button>-->
+<!--            <a class="navbar-brand" href="#">LoveCenter</a>-->
+<!--            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">-->
+<!--                <ul class="navbar-nav me-auto mb-2 mb-lg-0">-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link"  href="#">Home</a>-->
+<!--&lt;!&ndash;                        aria-current="page"&ndash;&gt;-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="#">About</a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="#" tabindex="-1">Contact Us</a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--                <form class="d-flex">-->
+<!--                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
+<!--                    <button class="btn btn-outline-success" type="submit">Search</button>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </nav>-->
+
+    <h1>Welcome to LoveCenter</h1>
+    <p> where you get to meet wonderful people with various interests and hobby. You can make new friends and find partners</p>
+    <a href="/login">Login and Continue making friends</a>
+    <a href="/register">Click here, if you don't have an account</a>
+    <h1 th:text="${page}"> </h1>
 </body>
 </html>

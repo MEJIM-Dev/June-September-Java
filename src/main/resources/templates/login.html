@@ -4,26 +4,27 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <link href="./styles/login.css" rel="stylesheet">
+    <link href="./styles/bootstrap.css" rel="stylesheet">
 </head>
 <body>
     <main>
         <form action="/login" method="post">
-            <section>
-                <label for="username" >
+            <section class="mb-3">
+                <label class="form-label" for="email" >
                     Email:
                 </label>
-                <input id="username" type="email" name="username" placeholder="Enter Email"/>
+                <input id="email" class="form-control" type="email" name="email" placeholder="Enter Email"  aria-describedby="emailHelp"/>
             </section>
-            <section>
-                <label for="password" >
+            <section class="mb-3">
+                <label for="password" class="form-label">
                     Password:
                 </label>
-                <input id="password" type="password" name="password" placeholder="Enter Password"/>
-            </section>
-            <input id="submit" type="submit" />
+                <input id="password" type="password" class="form-control" name="password" placeholder="Enter Password"/>
+            </section >
+            <input id="submit" type="submit" class="btn btn-primary" />
         </form>
 
     </main>
-    <script src="/js/login.js"></script>
+<!--    <script src="/js/login.js"></script>-->
 </body>
 </html>
