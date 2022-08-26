@@ -40,21 +40,4 @@ public class MVCPost {
         return "dashboard";
     }
 
-//    @CrossOrigin()
-//    @PostMapping(value = {"/login","Login"})
-//    public String Login(Model model, @ModelAttribute LoginData user, HttpServletRequest req, HttpServletResponse res) throws UserNotFoundException, BadRequestCustomException {
-//        System.out.println(user);
-////        ResponseEntity<?> responseEntity =userImpl.loginUser(user);
-////        ResponseObject dbUser = (ResponseObject) responseEntity.getBody();
-////        System.out.println(dbUser);
-////
-////        Cookie username = new Cookie("email", dbUser.getEmail());
-////        username.setPath("/");
-////        username.setMaxAge(60*60*2);
-////        System.out.println(": "+username.getMaxAge());
-////        res.addCookie(username);
-////        model.addAttribute("user", dbUser);
-//
-//        return "dashboard";
-//    }
 }

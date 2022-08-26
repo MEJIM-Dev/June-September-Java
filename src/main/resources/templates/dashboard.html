@@ -3,10 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
+    <link rel="stylesheet" href="./styles/bootstrap.css">
 </head>
 <body>
-    <header>
-        Dashboard
+    <header class="navbar navbar-primary header-container">
+        <div>
+            <h1 class="navbar-toggler">Dashboard</h1>
+        </div>
+        <div class="nav-drop-down">
+            <button id="logout" class="btn btn-danger" type="button">logout</button>
+        </div>
+
     </header>
     <section>
         <div>
@@ -22,5 +29,6 @@
             <p th:text="${user.age}"></p>
         </div>
     </section>
+<script src="./js/dashboard.js"> </script>
 </body>
 </html>

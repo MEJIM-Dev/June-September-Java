@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.InvocationTargetException;
 
 @Controller
@@ -38,5 +39,17 @@ public class MVCGet {
     @GetMapping("/register")
     public String register(HttpServletRequest req, Model model) throws UserNotFoundException {
         return userImpl.dashboardRerouter(req, model, "register");
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletResponse res){
+        System.out.println("tried to logout");
+
+        Cookie cookie = new Cookie("email", "");
+        cookie.setMaxAge(0);
+        cookie.setHttpOnly(true);
+        res.addCookie(cookie);
+
+        return "login";
     }
 }

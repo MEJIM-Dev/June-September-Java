@@ -188,7 +188,7 @@ public class UserServiceImplementation implements UserServices{
 
     public String dashboardRerouter(HttpServletRequest req, Model model, String defaultView) throws UserNotFoundException {
         Cookie[] cookies = req.getCookies();
-        if(cookies.length>0){
+        if(cookies!=null){
             for (Cookie cookie: cookies) {
                 if(cookie.getName().equals("email")){
                     ResponseObject dbUser = reAuthenticate(cookie.getValue());
