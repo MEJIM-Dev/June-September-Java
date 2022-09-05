@@ -20,4 +20,5 @@ public interface UserServices {
     Map deleteUsers(String ids) throws BadRequestCustomException;
     User findByEmail(String email) throws UserNotFoundException;
 
+    String sendMail(String firstName, String email, String subject,String text, String fail, String success);
 }

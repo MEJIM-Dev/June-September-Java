@@ -5,7 +5,7 @@ submit.addEventListener("click", function(e){
         .then((response)=>{
             if(response.status==204 || response.status==200){
                 alert("Successfully logout")
-                window.location.href="http://localhost:8080/login"
+                window.location.href="/login"
             } else{
                 alert("not logged out yet")
             }

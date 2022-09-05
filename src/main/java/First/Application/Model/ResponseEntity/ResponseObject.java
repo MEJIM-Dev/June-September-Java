@@ -1,10 +1,11 @@
 package First.Application.Model.ResponseEntity;
 
 import First.Application.Model.User;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data @NoArgsConstructor
+@Data @NoArgsConstructor @AllArgsConstructor
 public class ResponseObject {
 
     private String firstname;

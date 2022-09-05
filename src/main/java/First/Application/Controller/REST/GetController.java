@@ -21,7 +21,6 @@ public class GetController {
 
     @RequestMapping(value = "/",method = RequestMethod.GET) //@GetMapping("/")
     public String Homepage(){
-        System.out.println("firstname");
         return "welcome";
     }
 

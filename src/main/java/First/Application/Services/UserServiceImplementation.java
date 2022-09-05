@@ -10,11 +10,20 @@ import First.Application.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
+import org.springframework.mail.MailSendException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMailMessage;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @Service
@@ -22,6 +31,9 @@ public class UserServiceImplementation implements UserServices{
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    JavaMailSender javaMailSender;
 
     @Override
     public User saveUser(UserRegistrationObject uro) {
@@ -154,6 +166,40 @@ public class UserServiceImplementation implements UserServices{
         return user.get();
     }
 
+    @Override
+    public String sendMail(String firstName, String email, String subject, String text, String fail, String success) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(email);
+        message.setSubject(subject);
+        message.setText("hello "+firstName+", \n"+text);
+        try{
+            javaMailSender.send(message);
+        } catch (MailException e){
+            System.out.println(e.getCause());
+            return fail;
+        }
+        return success;
+    }
+
+    public String sendMailWithAtt(String firstName, String email, String subject, String text, String fail, String success) throws MessagingException {
+
+        MimeMessage msg = javaMailSender.createMimeMessage();
+        MimeMessageHelper msgHelper = new MimeMessageHelper(msg,"utf-8");
+
+        msgHelper.setText("<div style=\" display: flex; flex-direction: column\"> <div>hello "+firstName+", </div> <div style=\" margin-top: 10px\">"+text+"</div> </div>", true);
+        msgHelper.setTo(email);
+        msgHelper.setSubject(subject);
+
+        try {
+            javaMailSender.send(msg);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return fail;
+        }
+
+        return success;
+    }
+
     public User findByFirstname(String firstname) throws UserNotFoundException {
          Optional<User> dbUser = userRepository.findByFirstname(firstname);
 
@@ -187,16 +233,31 @@ public class UserServiceImplementation implements UserServices{
     }
 
     public String dashboardRerouter(HttpServletRequest req, Model model, String defaultView) throws UserNotFoundException {
-        Cookie[] cookies = req.getCookies();
-        if(cookies!=null){
-            for (Cookie cookie: cookies) {
-                if(cookie.getName().equals("email")){
-                    ResponseObject dbUser = reAuthenticate(cookie.getValue());
-                    model.addAttribute("user",dbUser);
-                    return "dashboard";
-                }
-            }
+//cookies based flow
+        //        Cookie[] cookies = req.getCookies();
+//        if(cookies!=null){
+//            for (Cookie cookie: cookies) {
+//                if(cookie.getName().equals("email")){
+//                    ResponseObject dbUser = reAuthenticate(cookie.getValue());
+//                    model.addAttribute("user",dbUser);
+//                    return "dashboard";
+//                }
+//            }
+//        }
+        HttpSession session = req.getSession();
+        if(!session.isNew()){
+            ResponseObject dbUser = new  ResponseObject(
+                    session.getAttribute("firstname").toString(),
+                    session.getAttribute("lastname").toString(),
+                    session.getAttribute("email").toString(),
+                    session.getAttribute("gender").toString(),
+                    Integer.parseInt(session.getAttribute("age").toString())
+                    );
+            model.addAttribute("user",dbUser);
+            return "dashboard";
         }
+
+        req.getSession().invalidate();
         return defaultView;
     }
 }
